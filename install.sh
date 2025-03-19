@@ -5,7 +5,10 @@ case "$(uname -s)" in
     Darwin*) CURA_CONFIG_ROOT="$HOME/Library/Application Support/cura";;
 esac
 
-[ -d "$CURA_CONFIG_ROOT" ] && CURA_DIR=$(find "$CURA_CONFIG_ROOT" -maxdepth 1 -type d | grep -E "/[0-9]+\.[0-9]+$" | sort | tail -n 1)
+#[ -d "$CURA_CONFIG_ROOT" ] && CURA_DIR=$(find "$CURA_CONFIG_ROOT" -maxdepth 1 -type d | grep -E "/[0-9]+\.[0-9]+$" | sort | tail -n 1)
+# change needed to make it sort versions properly and catch the latest one.
+# for example, under the old version 4.13 was deemed to be newer than 4.8
+[ -d "$CURA_CONFIG_ROOT" ] && CURA_DIR=$(ls -d ~/.local/share/cura/* | grep -E '/[0-9]+\.[0-9]+$' | sort  --version-sort | tail -n 1)
 
 if [ -z "$CURA_DIR" ]
 then
